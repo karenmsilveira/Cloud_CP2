@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Bem vindo</title>
+<script th:src="@{/js/jquery.js}" type="text/javascript"></script>
+<script th:src="@{/js/mask.js}" type="text/javascript"></script>
+<script th:src="@{/js/font-awesome.js}" type="text/javascript"></script>
+<script th:src="@{/js/script.js}" type="text/javascript"></script>
+<script th:src="@{/bootstrap/bootstrap.bundle.min.js}"
+	type="text/javascript"></script>
+<link th:href="@{/bootstrap/bootstrap.css}" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{css/index.css}">
+</head>
+<body>
+<div class="container1">
+	<div class="box">
+		<div class="box-extrato">
+			<h1>Extrato</h1>
+			<br>
+			<div class="row">
+				<div class="col-3"><h2>Tipo</h2></div>
+				<div class="col-3"><h2>Data</h2></div>
+				<div class="col-3"><h2>Valor</h2></div>
+			</div>
+			<th:block th:each="mov : ${lst}">
+			
+			   <div class="row">
+					<div class="col-3" th:if="${mov.tipoMov == 1}">Depósito</div>
+					<div class="col-3" th:if="${mov.tipoMov == 2}">Saque</div>
+					<div class="col-3" th:text="${#dates.format(mov.dataMov, 'dd/MM/yyyy')}">...</div>
+			      	<div class="col-3" th:text="${#numbers.formatDecimal(mov.valorMov, 0, 'COMMA', 2, 'POINT')}"></div>
+			   </div>
+			</th:block>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Bem vindo</title>
+<script th:src="@{/js/jquery.js}" type="text/javascript"></script>
+<script th:src="@{/js/mask.js}" type="text/javascript"></script>
+<script th:src="@{/js/font-awesome.js}" type="text/javascript"></script>
+<script th:src="@{/js/script.js}" type="text/javascript"></script>
+<script th:src="@{/bootstrap/bootstrap.bundle.min.js}"
+	type="text/javascript"></script>
+<link th:href="@{/bootstrap/bootstrap.css}" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{css/index.css}">
+</head>
+<body>
+	<div class="container">
+		<div class="box">
+			<div class="box-login text-center">
+				
+				<div class="SaqueGeral">
+				<h3>
+					<span th:text="${cliente.nome}"></span>, seu saldo atual é de: <span
+						th:text="${#numbers.formatDecimal(cliente.conta.saldo, 0, 'COMMA', 2, 'POINT')}"></span>
+				</h3>
+				<br />
+				<form method="post" action="api/saque">
+				<div class="row text-left">
+
+					<div class="col-6">
+						<label for="valorSaque">Valor do Saque:</label> <input
+							id="saque" name="saque" class="form-control" type="number" step="0.01" />
+					</div>
+				</div>
+				<br>
+				<div class="row text-left">
+						<div class="col-sm">
+							<input type="submit" class="form-control botaosacar"
+								value="Sacar">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div  style="display:block" class="flex-box container-box" th:if="${(param.erro != null) and (param.erro[0] == '-1')}">
+		<div class="alert alert-danger alerta-centro" role="alert" id="alerta">Saldo insuficiente.</div>
+	</div>
+	
+</body>
+</html>

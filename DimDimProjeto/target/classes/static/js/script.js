@@ -1,3 +1,47 @@
+function salvarCliente(){
+	var nome = $("#nome").val();
+	var dtNasc = $("#dtNasc").val();
+	var cpf = $("#cpf").val();
+	var senha = $("#senha").val();
+	
+	
+	
+	var formData = { 
+		'nome' 			: nome,
+		'dtNasc' 		: dtNasc,
+		'cpf' 			: cpf,
+		'senha' 		: senha
+		
+	 };
+	 console.log(formData);
+	$.ajax({
+		type		    : 'POST',
+		url				: '/api/cadastro/',
+		contentType   	: 'application/json',
+		data		    : JSON.stringify(formData),
+		dataType	    : 'json',
+		encode		: true,
+		success: function(data) {
+			if(data.erro){
+				alerta(data.message);
+			}else{
+
+				try{
+					window.location = "/";
+				}catch(e){
+					alertaSucess(data.message,"");
+				}
+
+
+			}
+		},
+		error: function(result) {
+			alerta(result.responseJSON.message);
+		}
+	});
+	return false;
+}
+
 function formataValor(){
 	var vl = $("#valorPagamento").html();
 	var vl2 = formatReal(parseFloat(vl));

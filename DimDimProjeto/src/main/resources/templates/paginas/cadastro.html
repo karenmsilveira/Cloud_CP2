@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Bem vindo</title>
+<title>Cadastro</title>
 <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
 <script th:src="@{/js/mask.js}" type="text/javascript"></script>
 <script th:src="@{/js/font-awesome.js}" type="text/javascript"></script>
-<script th:src="@{/js/login.js}" type="text/javascript"></script>
+<script th:src="@{/js/script.js}" type="text/javascript"></script>
 <script th:src="@{/bootstrap/bootstrap.bundle.min.js}"
 	type="text/javascript"></script>
 <link th:href="@{/bootstrap/bootstrap.css}" rel="stylesheet" />
@@ -17,43 +17,52 @@
 	<div class="container">
 		<div class="box">
 
-			<div class="box-login text-center">
-				<div class="imagem_logo">
-					<img th:src="@{/images/logoDimDim.PNG}" width="400" height="70">
+			<div class="box-login ">
+				<div class="bemVindoCadastro text-center">
+
+					<h1>Faça seu cadastro</h1>
+					<hr width="100%">
 				</div>
 
-				<div class="login">
+				<div class="cadastro text-center">
 
 					<div class="row text-left">
+
+
+						<div class="col-6">
+							<label for="nome">Nome:</label> <input type="text" id="nome"
+								class="form-control" />
+						</div>
+						<div class="col-6">
+							<label for="dtNasc">Data Nascimento:</label> <input type="date"
+								id="dtNasc" class="form-control" />
+						</div>
+
+					</div>
+
+					<div class="row text-left">
+
+
 						<div class="col-6">
 							<label for="cpf">CPF:</label> <input type="text" id="cpf"
 								class="form-control" />
 						</div>
-
-					</div>
-					<div class="row text-left">
 						<div class="col-6">
 							<label for="senha">Senha:</label> <input type="password"
 								id="senha" class="form-control" />
 						</div>
-
-
 					</div>
 					<div class="row text-left">
 						<div class="col-sm">
-							<input type="button" class="form-control botaologar"
-								value="Entrar" onclick="logar()">
+							<input type="button" class="form-control botaoCadastro"
+								value="Enviar" onclick="salvarCliente()">
 						</div>
 					</div>
-
-				</div>
-				<div class="cadastro">
-					<a href="cadastro">
-						<p>Primeiro Acesso</p>
-					</a>
 				</div>
 			</div>
+
 		</div>
+
 	</div>
 
 </body>

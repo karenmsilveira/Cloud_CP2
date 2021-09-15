@@ -4,14 +4,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -27,6 +25,11 @@ import net.sf.json.JSONObject;
 @SequenceGenerator(sequenceName = "sq_dimdim_tb_cliente", name = "cliente", allocationSize = 1)
 public class Cliente implements UserDetails{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id_cliente")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente")
@@ -43,6 +46,7 @@ public class Cliente implements UserDetails{
 	
 	@OneToOne(mappedBy = "cliente")
 	private Conta conta;
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente")
 	private List<Perfil> perfis;
 

@@ -1,23 +1,31 @@
 package br.com.dimdim.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import br.com.dimdim.bo.ClienteBo;
+import br.com.dimdim.bo.ContaBo;
 import br.com.dimdim.model.Cliente;
 import br.com.dimdim.model.Conta;
 import br.com.dimdim.model.Movimentacao;
+import br.com.dimdim.model.TipoConta;
 import br.com.dimdim.repository.ClienteRepository;
 import br.com.dimdim.repository.ContaRepository;
 import br.com.dimdim.repository.MovimentacaoRepository;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/api")
@@ -94,6 +102,51 @@ public class ApiController {
 		}else {
 			return new RedirectView("/home?erro=true");
 		}
+	}
+	@CrossOrigin
+	@RequestMapping(value="/cadastro",method=RequestMethod.POST, produces = {"application/json"})
+	public ResponseEntity<?> salvarCliente(@RequestBody(required = true) JSONObject estruturaJson) throws Exception {
+		JSONObject json = new JSONObject();
+			Cliente cliente = new Cliente();
+			cliente.setNome(estruturaJson.getString("nome"));
+			cliente.setCpf(estruturaJson.getString("cpf"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			cliente.setDtNasc(sdf.parse(estruturaJson.getString("dtNasc")));
+			
+			
+			
+			String senha = new BCryptPasswordEncoder().encode(estruturaJson.getString("senha"));
+			cliente.setSenha(senha);
+			
+			try {
+				ClienteBo cBo = this.getInstanceClienteBo();
+				Cliente c = cBo.salvarCliente(cliente);
+				Conta conta =  new Conta();
+				conta.setCliente(c);
+				conta.setNumeroAgencia("1");
+				conta.setNumeroConta(c.getIdCliente());
+				conta.setSaldo(0.00);
+				conta.setTipoConta(TipoConta.CORRENTE);
+				conta.setDigitoConta(Integer.parseInt(c.getIdCliente().toString().substring(0,1)));
+				
+				ContaBo contaBo = new ContaBo(contaRepository);
+				contaBo.salvarConta(conta);
+				json.put("erro", false);
+			}catch (Exception e) {
+				json.put("erro", true);
+			}
+				
+			if(json.getBoolean("erro")) {
+				return ResponseEntity.badRequest().body(json);
+			}else {
+				return ResponseEntity.ok(json);
+			}
+		
+			
+	}
+	public ClienteBo getInstanceClienteBo() {
+		return new ClienteBo(this.clienteRepository);
 	}
 	
 }

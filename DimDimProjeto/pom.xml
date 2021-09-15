@@ -65,12 +65,11 @@
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
 		</dependency>
+		https://mvnrepository.com/artifact/com.oracle/ojdbc7
 		<dependency>
-			<groupId>oracle</groupId>
-			<artifactId>jdbc-driver</artifactId>
-			<version>12</version>
-			<scope>system</scope>
-			<systemPath>C:\lib\ojdbc7.jar</systemPath>
+		    <groupId>com.oracle</groupId>
+		    <artifactId>ojdbc7</artifactId>
+		    <version>12.1.0.2</version>
 		</dependency>
 
 
